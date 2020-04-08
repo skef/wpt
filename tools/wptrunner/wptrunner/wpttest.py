@@ -2,7 +2,7 @@ import os
 import subprocess
 from six.moves.urllib.parse import urljoin
 from collections import defaultdict
-from six import string_types
+from six import iteritems, string_types
 
 from .wptmanifest.parser import atoms
 
@@ -291,7 +291,7 @@ class Test(object):
         rv = {}
         for meta in self.itermeta(None):
             threshold = meta.leak_threshold
-            for key, value in threshold.iteritems():
+            for key, value in iteritems(threshold):
                 if key not in rv:
                     rv[key] = value
         return rv
@@ -341,6 +341,13 @@ class Test(object):
                 return default
         except KeyError:
             return default
+
+    def implementation_status(self):
+        implementation_status = None
+        for meta in self.itermeta():
+            implementation_status = meta.implementation_status
+            if implementation_status:
+                return implementation_status
 
     def known_intermittent(self, subtest=None):
         metadata = self._get_metadata(subtest)

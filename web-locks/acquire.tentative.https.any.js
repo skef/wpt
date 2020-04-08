@@ -28,7 +28,7 @@ promise_test(async t => {
 
 promise_test(async t => {
   const res = uniqueName(t);
-  await promise_rejects(
+  await promise_rejects_dom(
     t, 'NotSupportedError',
     navigator.locks.request(
       res, {steal: true, ifAvailable: true}, lock => {}),
@@ -38,7 +38,7 @@ promise_test(async t => {
 
 promise_test(async t => {
   const res = uniqueName(t);
-  await promise_rejects(
+  await promise_rejects_dom(
     t, 'NotSupportedError',
     navigator.locks.request(res, {mode: 'shared', steal: true}, lock => {}),
     'Request with mode=shared and steal=true should fail');
@@ -47,7 +47,7 @@ promise_test(async t => {
 promise_test(async t => {
   const res = uniqueName(t);
   const controller = new AbortController();
-  await promise_rejects(
+  await promise_rejects_dom(
     t, 'NotSupportedError',
     navigator.locks.request(
       res, {signal: controller.signal, steal: true}, lock => {}),
@@ -57,7 +57,7 @@ promise_test(async t => {
 promise_test(async t => {
   const res = uniqueName(t);
   const controller = new AbortController();
-  await promise_rejects(
+  await promise_rejects_dom(
     t, 'NotSupportedError',
     navigator.locks.request(
       res, {signal: controller.signal, ifAvailable: true}, lock => {}),
@@ -110,7 +110,7 @@ promise_test(async t => {
     throw test_error;
   });
   assert_equals(Promise.resolve(p), p, 'request() result is a Promise');
-  await promise_rejects(t, test_error, p, 'result should reject');
+  await promise_rejects_exactly(t, test_error, p, 'result should reject');
 }, 'Returned Promise rejects if callback throws synchronously');
 
 promise_test(async t => {
@@ -120,5 +120,5 @@ promise_test(async t => {
     throw test_error;
   });
   assert_equals(Promise.resolve(p), p, 'request() result is a Promise');
-  await promise_rejects(t, test_error, p, 'result should reject');
+  await promise_rejects_exactly(t, test_error, p, 'result should reject');
 }, 'Returned Promise rejects if callback throws asynchronously');

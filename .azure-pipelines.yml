@@ -34,6 +34,9 @@ jobs:
   pool:
     vmImage: 'macOS-10.14'
   steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '2.7.x'
   - template: tools/ci/azure/affected_tests.yml
     parameters:
       artifactName: 'safari-preview-affected-tests'
@@ -48,6 +51,9 @@ jobs:
   pool:
     vmImage: 'macOS-10.14'
   steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '2.7.x'
   - template: tools/ci/azure/affected_tests.yml
     parameters:
       checkoutCommit: 'HEAD^1'
@@ -82,6 +88,9 @@ jobs:
   pool:
     vmImage: 'macOS-10.14'
   steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '2.7.x'
   - template: tools/ci/azure/checkout.yml
   - template: tools/ci/azure/pip_install.yml
     parameters:
@@ -114,6 +123,9 @@ jobs:
   variables:
     HYPOTHESIS_PROFILE: ci
   steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '2.7.x'
   - template: tools/ci/azure/checkout.yml
   - template: tools/ci/azure/tox_pytest.yml
     parameters:
@@ -161,6 +173,9 @@ jobs:
   variables:
     HYPOTHESIS_PROFILE: ci
   steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '2.7.x'
   - template: tools/ci/azure/checkout.yml
   - template: tools/ci/azure/tox_pytest.yml
     parameters:
@@ -209,6 +224,9 @@ jobs:
     HYPOTHESIS_PROFILE: ci
   steps:
   # full checkout required
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '2.7.x'
   - template: tools/ci/azure/install_chrome.yml
   - template: tools/ci/azure/install_firefox.yml
   - template: tools/ci/azure/update_hosts.yml
@@ -229,6 +247,7 @@ jobs:
   - task: UsePythonVersion@0
     inputs:
       versionSpec: '3.6.x'
+  # Python 2.7 still needed to update manifest.
   - task: UsePythonVersion@0
     inputs:
       versionSpec: '2.7.x'
@@ -252,6 +271,7 @@ jobs:
   - task: UsePythonVersion@0
     inputs:
       versionSpec: '3.8.x'
+  # Python 2.7 still needed to update manifest.
   - task: UsePythonVersion@0
     inputs:
       versionSpec: '2.7.x'
@@ -406,6 +426,7 @@ jobs:
     inputs:
       versionSpec: '3.6.x'
       addToPath: false
+  # Python 2.7 still needed to update manifest.
   - task: UsePythonVersion@0
     inputs:
       versionSpec: '2.7.x'
@@ -433,6 +454,7 @@ jobs:
     inputs:
       versionSpec: '3.8.x'
       addToPath: false
+  # Python 2.7 still needed to update manifest.
   - task: UsePythonVersion@0
     inputs:
       versionSpec: '2.7.x'
@@ -594,6 +616,9 @@ jobs:
   pool:
     vmImage: 'macOS-10.14'
   steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '2.7.x'
   - template: tools/ci/azure/checkout.yml
   - template: tools/ci/azure/pip_install.yml
     parameters:
@@ -604,8 +629,8 @@ jobs:
       channel: stable
   - template: tools/ci/azure/update_hosts.yml
   - template: tools/ci/azure/update_manifest.yml
-  # --exclude is a workaround for https://github.com/web-platform-tests/wpt/issues/18634
-  - script: no_proxy='*' ./wpt run --no-manifest-update --no-restart-on-unexpected --no-fail-on-unexpected --this-chunk=$(System.JobPositionInPhase) --total-chunks=$(System.TotalJobsInPhase) --chunk-type hash --log-wptreport $(Build.ArtifactStagingDirectory)/wpt_report_$(System.JobPositionInPhase).json --log-wptscreenshot $(Build.ArtifactStagingDirectory)/wpt_screenshot_$(System.JobPositionInPhase).txt --log-mach - --log-mach-level info safari --exclude /inert/inert-retargeting.tentative.html --exclude /inert/inert-retargeting-iframe.tentative.html
+  # --exclude is a workaround for https://github.com/web-platform-tests/wpt/issues/18634 + https://github.com/web-platform-tests/wpt/issues/22175
+  - script: no_proxy='*' ./wpt run --no-manifest-update --no-restart-on-unexpected --no-fail-on-unexpected --this-chunk=$(System.JobPositionInPhase) --total-chunks=$(System.TotalJobsInPhase) --chunk-type hash --log-wptreport $(Build.ArtifactStagingDirectory)/wpt_report_$(System.JobPositionInPhase).json --log-wptscreenshot $(Build.ArtifactStagingDirectory)/wpt_screenshot_$(System.JobPositionInPhase).txt --log-mach - --log-mach-level info safari --exclude /inert/inert-retargeting.tentative.html --exclude /inert/inert-retargeting-iframe.tentative.html --exclude /pointerevents/pointerevent_pointercapture-not-lost-in-chorded-buttons.html --exclude /pointerevents/pointerevent_pointercapture_in_frame.html --exclude /web-share/share-sharePromise-internal-slot.https.html
     displayName: 'Run tests'
   - task: PublishBuildArtifacts@1
     displayName: 'Publish results'
@@ -628,6 +653,9 @@ jobs:
   pool:
     vmImage: 'macOS-10.14'
   steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '2.7.x'
   - template: tools/ci/azure/checkout.yml
   - template: tools/ci/azure/pip_install.yml
     parameters:
